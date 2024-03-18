@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expenses</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="mt-4">Expenses</h1>
+
+        <form action="/api/expenses" method="POST" class="mt-4">
+            <div class="form-group">
+                <label for="amount">Amount</label>
+                <input type="number" class="form-control" id="amount" name="amount" required>
+            </div>
+            <div class="form-group">
+                <label for="description">Description</label>
+                <input type="text" class="form-control" id="description" name="description" required>
+            </div>
+            <div class="form-group">
+                <label for="category">Category</label>
+                <select class="form-control" id="category" name="category" required>
+                    <option value="">Select Category</option>
+                    <option value="Food">Food</option>
+                    <option value="Movies">Movies</option>
+                    <option value="Entertainment">Entertainment</option>
+                    <option value="Fuel">Fuel</option>
+                    <option value="Electricity">Electricity</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Add Expense</button>
+        </form>
+
+        <table class="table mt-4">
+            <thead>
+                <tr>
+                    <th>Amount</th>
+                    <th>Description</th>
+                    <th>Category</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% expenses.forEach(expense=> { %>
+                    <tr>
+                        <td>$<%= expense.amount %>
+                        </td>
+                        <td>
+                            <%= expense.description %>
+                        </td>
+                        <td>
+                            <%= expense.category %>
+                        </td>
+                        <td>
+                            <form action="/api/expenses/<%= expense.id %>?_method=DELETE" method="POST"
+                                style="display: inline-block;">
+                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                            </form>
+                            <a href="/api/expenses/<%= expense.id %>/edit" class="btn btn-primary btn-sm">Edit</a>
+                        </td>
+                    </tr>
+                    <% }); %>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        const editButtons = document.querySelectorAll('a.btn-primary');
+        editButtons.forEach(button => {
+            button.addEventListener('click', (event) => {
+                event.preventDefault();
+                const expenseId = event.target.href.split('/').pop();
+                window.location.href = `/api/expenses/${expenseId}/edit`;
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Expense</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="mt-4">Edit Expense</h1>
+
+        <form action="/api/expenses/<%= expense.id %>?_method=PUT" method="POST" class="mt-4">
+            <div class="form-group">
+                <label for="amount">Amount</label>
+                <input type="number" class="form-control" id="amount" name="amount" value="<%= expense.amount %>"
+                    required>
+            </div>
+            <div class="form-group">
+                <label for="description">Description</label>
+                <input type="text" class="form-control" id="description" name="description"
+                    value="<%= expense.description %>" required>
+            </div>
+            <div class="form-group">
+                <label for="category">Category</label>
+                <select class="form-control" id="category" name="category" required>
+                    <option value="">Select Category</option>
+                    <option value="Food" <%=expense.category==='Food' ? 'selected' : '' %>>Food</option>
+                    <option value="Movies" <%=expense.category==='Movies' ? 'selected' : '' %>>Movies</option>
+                    <option value="Entertainment" <%=expense.category==='Entertainment' ? 'selected' : '' %>
+                        >Entertainment</option>
+                    <option value="Fuel" <%=expense.category==='Fuel' ? 'selected' : '' %>>Fuel</option>
+                    <option value="Electricity" <%=expense.category==='Electricity' ? 'selected' : '' %>>Electricity
+                    </option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Update Expense</button>
+            <a href="/api/expenses" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</body>
+
+</html>
